@@ -20,7 +20,8 @@ services:
     build:
       context: ./node
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - node-network
 
@@ -37,6 +38,11 @@ services:
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
 
 networks:
   node-network:
