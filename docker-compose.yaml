@@ -20,7 +20,7 @@ services:
     build:
       context: ./node
     volumes:
-      - ./node:/usr/src/app
+      - ./node:/app
     depends_on:
       db:
         condition: service_healthy
