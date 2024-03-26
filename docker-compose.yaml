@@ -15,12 +15,13 @@ services:
       - node-network
   
   app:
-    container_name: app
-    restart: always
     build:
-      context: ./node
+      context: ./app
+    container_name: app
+    tty: true
+    entrypoint: sh -c "npm install && npm start"
     volumes:
-      - ./node:/usr/src/app
+      - ./app:/usr/src/app
     depends_on:
       db:
         condition: service_healthy
